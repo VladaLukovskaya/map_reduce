@@ -1,44 +1,34 @@
 import sys
-# import json
-
-# items_and_stripes = dict()
 
 (item, stripe) = (None, dict())
 
 
-def dict_sum(new_stripe):
-    items_and_stripes = dict()
-    new_keys = new_stripe.keys()
-    for elem in new_keys:
-        if elem in stripe.keys():
-            stripe[elem] += new_stripe[elem]
-        else:
-            stripe[elem] = new_stripe[elem]
-    return stripe[elem]
+# def dict_sum(op1, op2):
+#     new_keys = op1.keys()
+#     for elem in new_keys:
+#         if elem in op2.keys():
+#             op2[elem] += op1[elem]
+#         else:
+#             op2[elem] = op1[elem]
+#     result = op2[item]
+#     return result
 
 
 for line in sys.stdin:
     line = line.strip()
     (key, value) = line.strip().split('\t')
     value_dict = eval(value)
-    # print('new', key, value)
     if value != '{}':
         if item and item != key:
-            # print(f'{item}\t{str(dict_sum(stripe))}')
             print(f'{item}\t{stripe}')
             stripe = value_dict
         else:
-            for elem in value_dict:
-                # print(elem)
-                if elem in stripe:
-                    stripe[elem] += value_dict[elem]
+            for element in value_dict:
+                if element in stripe:
+                    stripe[element] += value_dict[element]
                 else:
-                    stripe.update({elem: value_dict[elem]})
-                # print(stripe)
+                    stripe.update({element: value_dict[element]})
         item = key
 
 if item:
-    # print(f'{item}\t{str(dict_sum(stripe))}')
     print(f'{item}\t{stripe}')
-
-

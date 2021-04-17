@@ -1,17 +1,14 @@
-import requests
 import sys
+import pyhdfs
 
 
 def get_a_file():
-    hdfs_path = sys.argv[3]
-    url = f'http://localhost:9870/webhdfs/v1{hdfs_path}'
-    params = {
-        'user.name': 'hadoop',
-        'op': 'OPEN',
-    }
-    get = requests.get(url, params=params)
-    result = get.text.split("\n")[:-1]
-    return result
+    fs = pyhdfs.HdfsClient(hosts='localhost:9870', user_name='hadoop')
+    lines = list()
+    with fs.open('/output/part-00000') as f:
+        for line in f:
+            lines.append(line.decode("utf-8").strip('\n'))
+    return lines
 
 
 def pairs_advisor(reducer_result):
@@ -48,8 +45,6 @@ def stripes_advisor(reducer_result):
                     print(f'{i}.', *thing)
                     i += 1
 
-
-# get_a_file()
 
 if sys.argv[1] == 'pairs':
     pairs_advisor(get_a_file())

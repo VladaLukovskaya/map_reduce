@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 
 pair, count = None, 0
